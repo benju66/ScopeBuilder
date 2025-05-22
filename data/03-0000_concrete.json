@@ -1,0 +1,66 @@
+{
+  "template_name": "03-0000 Concrete",
+  "sections": [
+    {
+      "title": "Scope Clarifications",
+      "locked": false,
+      "children": [
+        {
+          "title": "A. Footings and Foundations",
+          "locked": false,
+          "children": [
+            {
+              "text": "Furnish and install all footings: strip, pad, elevator, and step footings.",
+              "locked": false,
+              "highlight": false
+            },
+            {
+              "text": "Assume frost-depth footings where none are shown on plans.",
+              "locked": true,
+              "highlight": false
+            },
+            {
+              "text": "Install all foundation wall embeds, sleeves, block-outs, anchor bolts, and base plate grouting as shown.",
+              "locked": false,
+              "highlight": true
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Estimated Workforce",
+      "locked": false,
+      "children": [
+        {
+          "text": "Footings - 5–6 person crew",
+          "locked": false
+        },
+        {
+          "text": "Walls - 8–10 person crew",
+          "locked": false
+        }
+      ]
+    },
+    {
+      "title": "Milestones",
+      "locked": false,
+      "children": [
+        {
+          "text": "Start Date:",
+          "locked": false,
+          "highlight": true
+        },
+        {
+          "text": "Duration:",
+          "locked": false,
+          "highlight": true
+        },
+        {
+          "text": "From Start of Concrete to Setting Precast - 8 weeks",
+          "locked": false
+        }
+      ]
+    }
+  ]
+}

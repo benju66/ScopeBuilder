@@ -1,0 +1,14 @@
+﻿data\03-0000_concrete.json
+data\04-0000_masonry.json
+logic\save_manager.py
+logic\undo_manager.py
+logic\undo_redo.py
+ui\main_window.py
+ui\new_template_dialog.py
+ui\project_loader_window.py
+ui\scope_preview_panel.py
+ui\scope_tree_widget.py
+ui\template_editor_dialog.py
+ui\template_loader_window.py
+main.py
+README.md

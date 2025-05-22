@@ -1,0 +1,20 @@
+{
+  "template_name": "Masonry",
+  "sections": [
+    {
+      "title": "04-0000 Masonry Scope Includes:"
+    },
+    {
+      "title": "Unit Masonry installation per architectural and structural drawings."
+    },
+    {
+      "title": "All reinforcing, grouting, lintels, embeds, and insulation within CMU walls."
+    },
+    {
+      "title": "Coordinate with structural steel and other trades for embedded items."
+    },
+    {
+      "title": "Install all masonry wall accessories and finishes."
+    }
+  ]
+}
