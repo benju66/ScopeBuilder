@@ -106,32 +106,72 @@ class ScopeTreeWidget(QWidget):
             ))
 
     def generate_scope_text(self):
-        divider_sections = {"MILESTONES", "ESTIMATED WORKFORCE", "CLARIFICATIONS"}
+        """Generate formatted scope text that matches PDF structure exactly"""
+        divider_sections = {"MILESTONES", "ESTIMATED WORKFORCE", "CLARIFICATIONS", "SCOPE CLARIFICATIONS"}
 
-        def recurse(node, prefix_stack):
+        def recurse(node, prefix_stack, parent_is_root=False):
             lines = []
-            counter = 1
+            letter_counter = 0  # For A., B., C. subsections
+            number_counter = 0  # For 1., 2., 3. items under subsections
+            
             for i in range(node.childCount()):
                 child = node.child(i)
                 if child.checkState(0) == Qt.CheckState.Checked:
-                    number_stack = prefix_stack + [str(counter)]
-                    numbering = ".".join(number_stack)
-                    indent = "    " * (len(number_stack) - 1)
                     text = child.text(0).strip()
-
-                    if len(number_stack) == 1 and not child.parent():
-                        if text.upper() in divider_sections:
-                            lines.append("\n" + "-" * 40)
-                        lines.append(f"\n**{text.upper()}**\n")
+                    
+                    # Determine hierarchy level
+                    level = len(prefix_stack)
+                    
+                    if level == 0:
+                        # Top-level sections (SCOPE CLARIFICATIONS, ESTIMATED WORKFORCE, etc.)
+                        text_upper = text.upper()
+                        if any(section in text_upper for section in divider_sections):
+                            lines.append("----------------------------------------")
+                        lines.append(f"**{text_upper}**")
+                        lines.append("")
+                        
+                    elif level == 1:
+                        # Subsections (A. Footings and Foundations, B. Slab-on-Grade, etc.)
+                        letter_counter += 1
+                        letter = chr(ord('A') + letter_counter - 1)
+                        lines.append(f"{letter}. {text}")
+                        
+                        # Reset number counter for items under this subsection
+                        number_counter = 0
+                        
+                    elif level == 2:
+                        # Items under subsections (1., 2., 3., etc.)
+                        number_counter += 1
+                        lines.append(f"    {number_counter}. {text}")
+                        
                     else:
-                        lines.append(f"{indent}{numbering}. {text}")
-
-                    lines += recurse(child, number_stack)
-                    counter += 1
+                        # Deeper levels (rare, but handle gracefully)
+                        indent = "    " * (level - 1)
+                        sub_number = len([x for x in lines if x.strip().startswith(f"{indent}")]) + 1
+                        lines.append(f"{indent}{sub_number}. {text}")
+                    
+                    # Recursively process children
+                    child_lines = recurse(child, prefix_stack + [str(i)], level == 0)
+                    lines.extend(child_lines)
+                    
             return lines
 
         root = self.tree.invisibleRootItem()
-        return "\n".join(recurse(root, []))
+        result_lines = recurse(root, [])
+        
+        # Clean up the output - remove excessive empty lines
+        cleaned_lines = []
+        prev_empty = False
+        
+        for line in result_lines:
+            if line.strip():
+                cleaned_lines.append(line)
+                prev_empty = False
+            elif not prev_empty:  # Only add one empty line at a time
+                cleaned_lines.append("")
+                prev_empty = True
+        
+        return "\n".join(cleaned_lines)
 
     def get_checked_paths(self):
         def recurse(item, path_so_far):
